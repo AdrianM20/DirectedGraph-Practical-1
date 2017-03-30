@@ -22,4 +22,9 @@ class EdgeValidator(object):
         if type(edge.target) is not int and edge.target < 0:
             raise EdgeValidatorException("Target should be a positive number.")
         if type(edge.cost) is not int and edge.cost < 0:
-            raise EdgeValidatorException("Cost should be a positive number")
+            raise EdgeValidatorException("Cost should be a positive number.")
+
+    @staticmethod
+    def validate_cost(cost):
+        if type(cost)is not int and cost < 0:
+            raise EdgeValidatorException("Cost should be a positive number.")

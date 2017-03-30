@@ -41,14 +41,19 @@ class DirectedGraph(object):
         self.__validator_class.validate(edge)
         self.__edges[edge.edge_id] = edge
 
-    def delete(self, edge_id):
+    def delete_edge_by_id(self, edge_id):
+        # TODO implement a delete function to delete an edge by its ID
         pass
 
-    def update(self, edge_id, new_edge):
+    def delete_by_vertex(self, vertex):
+        # TODO implement a delete function to delete a vertex and all its adjacent edges
+        pass
+
+    def update_cost(self, edge_id, new_cost):
         if self.find_edge_by_id(edge_id) is None:
             raise DirectedGraphException("Edge with id {0} does not exist. Nothing was updated.".format(edge_id))
-        self.__validator_class.validate(new_edge)
-        self.__edges[edge_id] = new_edge
+        self.__validator_class.validate_cost(new_cost)
+        self.__edges[edge_id].cost = new_cost
 
     def get_vertices_number(self):
         return self.__n_vertices

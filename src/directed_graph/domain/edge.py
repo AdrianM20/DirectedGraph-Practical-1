@@ -40,3 +40,10 @@ class Edge(object):
     @cost.setter
     def cost(self, value):
         self.__cost = value
+
+    def __str__(self):
+        edge_id = self.edge_id
+        source = str(self.source)
+        target = str(self.target)
+        cost = str(self.cost)
+        return "ID: " + edge_id + " || Source: " + source + " || Target: " + target + " || Cost: " + cost

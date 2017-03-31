@@ -13,18 +13,22 @@ class DirectedGraphException(GraphException):
 
 
 class DirectedGraph(object):
-    def __init__(self, validator_class, n_vertices, n_edges):
+    def __init__(self, validator_class):
         self.__validator_class = validator_class
-        self.__n_vertices = n_vertices
-        self.__n_edges = n_edges
-        self.__vertices = self.__initialize_vertices()
+        self.__n_vertices = None
+        self.__n_edges = None
+        self.__vertices = None
         self.__edges = {}
 
-    def __initialize_vertices(self):
+    def init_data(self, vertices, edges):
+        self.__n_vertices = vertices
+        self.__n_edges = edges
+
+    def init_vertices(self):
         vertices_list = []
         for i in range(0, self.__n_vertices):
             vertices_list.append(i)
-        return vertices_list
+        self.__vertices = vertices_list
 
     def find_edge_by_id(self, edge_id):
         if edge_id in self.__edges.keys():
@@ -42,12 +46,19 @@ class DirectedGraph(object):
         self.__edges[edge.edge_id] = edge
 
     def delete_edge_by_id(self, edge_id):
-        # TODO implement a delete function to delete an edge by its ID
-        pass
+        if self.find_edge_by_id(edge_id) is None:
+            raise DirectedGraphException("Edge with id {0} does not exist. Nothing was deleted".format(edge_id))
+        del self.__edges[edge_id]
 
     def delete_by_vertex(self, vertex):
-        # TODO implement a delete function to delete a vertex and all its adjacent edges
-        pass
+        if vertex not in self.__vertices:
+            raise DirectedGraphException("Vertex does not exist. Nothing was deleted.")
+        for i in range(0, self.__n_vertices):
+            if self.__vertices[i] == vertex:
+                del self.__vertices[i]
+        for edge in self.get_all_edges():
+            if edge.source == vertex or edge.target == vertex:
+                del self.__edges[edge.edge_id]
 
     def update_cost(self, edge_id, new_cost):
         if self.find_edge_by_id(edge_id) is None:

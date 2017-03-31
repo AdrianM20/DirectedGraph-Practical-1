@@ -12,14 +12,17 @@ class GraphController(object):
     def __init__(self, directed_graph):
         self.__directed_graph = directed_graph
 
+    def add_edge(self, source, target, cost):
+        edge = Edge(source, target, cost)
+        self.__directed_graph.save(edge)
+
+    def delete_edge(self, edge_id):
+        self.__directed_graph.delete_edge_by_id(edge_id)
+
     def get_edge_by_id(self, edge_id):
         if self.__directed_graph.find_edge_by_id(edge_id) is not None:
             return self.__directed_graph.find_edge_by_id(edge_id)
         return None
-
-    def add_edge(self, source, target, cost):
-        edge = Edge(source, target, cost)
-        self.__directed_graph.save(edge)
 
     def get_vertices_number(self):
         return self.__directed_graph.get_vertices_number()
@@ -48,3 +51,12 @@ class GraphController(object):
                 source = edge.source
                 target = edge.target
         return source, target
+
+    def get_edge_cost(self, edge_id):
+        if self.__directed_graph.find_edge_by_id(edge_id) is not None:
+            return self.__directed_graph.find_edge_by_id(edge_id).cost
+        return None
+
+    def change_edge_cost(self, edge_id, new_cost):
+        self.__directed_graph.update_cost(edge_id, new_cost)
+

@@ -19,7 +19,7 @@ class DirectedGraphFile(DirectedGraph):
         super().__init__(ValidatorClass)
         self.__ValidatorClass = ValidatorClass
         self.__filename = filename
-        self.load_graph()
+        # self.load_graph()
 
     @staticmethod
     def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill='▌'):

@@ -12,12 +12,21 @@ class GraphController(object):
     def __init__(self, directed_graph):
         self.__directed_graph = directed_graph
 
+    def load_from_file(self):
+        self.__directed_graph.load_graph()
+
     def add_edge(self, source, target, cost):
         edge = Edge(source, target, cost)
         self.__directed_graph.save(edge)
 
     def delete_edge(self, edge_id):
         self.__directed_graph.delete_edge_by_id(edge_id)
+
+    def add_vertex(self, vertex):
+        self.__directed_graph.save_vertex(vertex)
+
+    def delete_vertex(self, vertex):
+        self.__directed_graph.delete_by_vertex(vertex)
 
     def get_edge_by_id(self, edge_id):
         if self.__directed_graph.find_edge_by_id(edge_id) is not None:
@@ -60,3 +69,16 @@ class GraphController(object):
     def change_edge_cost(self, edge_id, new_cost):
         self.__directed_graph.update_cost(edge_id, new_cost)
 
+    def get_outbound_edges(self, vertex):
+        outbound = []
+        for edge in self.__directed_graph.get_all_edges():
+            if edge.source == vertex:
+                outbound.append(edge)
+        return outbound
+
+    def get_inbound_edges(self, vertex):
+        inbound = []
+        for edge in self.__directed_graph.get_all_edges():
+            if edge.target == vertex:
+                inbound.append(edge)
+        return inbound

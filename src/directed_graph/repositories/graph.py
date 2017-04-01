@@ -5,7 +5,7 @@ Created on 28.03.2017
 Author: @Adrian
 """
 
-from directed_graph.domain.validators import GraphException
+from directed_graph.domain.validators import GraphException, VertexValidator
 
 
 class DirectedGraphException(GraphException):
@@ -44,11 +44,19 @@ class DirectedGraph(object):
             raise DirectedGraphException("Target vertex does not exist. Cannot add edge.")
         self.__validator_class.validate(edge)
         self.__edges[edge.edge_id] = edge
+        self.__n_edges += 1
+
+    def save_vertex(self, vertex):
+        if vertex in self.__vertices:
+            raise DirectedGraphException("Vertex already exists. Nothing was added.")
+        VertexValidator.validate(vertex)
+        self.__vertices.append(vertex)
 
     def delete_edge_by_id(self, edge_id):
         if self.find_edge_by_id(edge_id) is None:
             raise DirectedGraphException("Edge with id {0} does not exist. Nothing was deleted".format(edge_id))
         del self.__edges[edge_id]
+        self.__n_edges -= 1
 
     def delete_by_vertex(self, vertex):
         if vertex not in self.__vertices:
@@ -56,7 +64,10 @@ class DirectedGraph(object):
         for i in range(0, self.__n_vertices):
             if self.__vertices[i] == vertex:
                 del self.__vertices[i]
-        for edge in self.get_all_edges():
+                self.__n_vertices -= 12
+                break
+        edges = list(self.get_all_edges())
+        for edge in edges:
             if edge.source == vertex or edge.target == vertex:
                 del self.__edges[edge.edge_id]
 

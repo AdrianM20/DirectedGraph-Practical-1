@@ -16,7 +16,11 @@ class Console(object):
         options = {1: self.__UI_add_vertex,
                    2: self.__UI_delete_vertex,
                    3: self.__UI_add_edge,
-                   4: self.__UI_delete_edge}
+                   4: self.__UI_delete_edge,
+                   5: self.__UI_print_vertices_number,
+                   6: self.__UI_print_degree,
+                   7: self.__UI_find_edge,
+                   8: self.__UI_print_endpoints}
 
         self.__greet_user()
         self.__graph_controller.load_from_file()
@@ -78,3 +82,28 @@ class Console(object):
     def __UI_delete_edge(self):
         edge_id = input("Edge ID: ")
         self.__graph_controller.delete_edge(edge_id)
+
+    def __UI_print_vertices_number(self):
+        print("The graph has {0} vertices.".format(self.__graph_controller.get_vertices_number()))
+
+    def __UI_print_degree(self):
+        vertex = int(input("Vertex ID: "))
+        in_degree, out_degree = self.__graph_controller.get_degree(vertex)
+        print("The vertex {0} has in degree {1} and out degree {2}".format(vertex, in_degree, out_degree))
+
+    def __UI_find_edge(self):
+        source = int(input("Source :"))
+        target = int(input("Target: "))
+        edge = self.__graph_controller.find_edge(source, target)
+        if edge is None:
+            print("There is no edge from vertex {0} to vertex {1}".format(source, target))
+        else:
+            print("There is an edge. It's ID is {0}.".format(edge))
+
+    def __UI_print_endpoints(self):
+        edge_id = input("Edge ID: ")
+        source, target = self.__graph_controller.get_endpoints(edge_id)
+        if source is None or target is None:
+            print("Edge does not exist.")
+        else:
+            print("The edge's source vertex is {0} and target vertex is {1}.".format(source, target))

@@ -37,6 +37,8 @@ class GraphController(object):
         return self.__directed_graph.get_vertices_number()
 
     def find_edge(self, source, target):
+        self.__directed_graph.check_vertex(source)
+        self.__directed_graph.check_vertex(target)
         edges = self.__directed_graph.get_all_edges()
         for edge in edges:
             if edge.source == source and edge.target == target:
@@ -44,8 +46,9 @@ class GraphController(object):
         return None
 
     def get_degree(self, vertex):
-        in_degree = 0
-        out_degree = 0
+        self.__directed_graph.check_vertex(vertex)
+        in_degree = None
+        out_degree = None
         for edge in self.__directed_graph.get_all_edges():
             if edge.source == vertex:
                 out_degree += 1

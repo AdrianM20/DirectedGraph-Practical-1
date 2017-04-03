@@ -35,6 +35,13 @@ class DirectedGraph(object):
             return self.__edges[edge_id]
         return None
 
+    def check_vertex(self, vertex):
+        if vertex not in self.__vertices:
+            raise DirectedGraphException("Vertex {0} does not exist.".format(vertex))
+
+    def init_save(self, edge):
+        self.__edges[edge.edge_id] = edge
+
     def save(self, edge):
         if self.find_edge_by_id(edge.edge_id) is not None:
             raise DirectedGraphException("Edge with id {0} already exists. Nothing was added".format(edge.edge_id))
@@ -64,7 +71,7 @@ class DirectedGraph(object):
         for i in range(0, self.__n_vertices):
             if self.__vertices[i] == vertex:
                 del self.__vertices[i]
-                self.__n_vertices -= 12
+                self.__n_vertices -= 1
                 break
         edges = list(self.get_all_edges())
         for edge in edges:

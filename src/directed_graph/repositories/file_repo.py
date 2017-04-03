@@ -55,7 +55,7 @@ class DirectedGraphFile(DirectedGraph):
 
                 div = edges / 50
                 i = 0
-                if edges == 4000000:
+                if edges >= 1000000:
                     self.printProgressBar(i, edges, prefix='Progress: ', suffix='Complete', length=50)
 
                 for line in f:
@@ -64,13 +64,13 @@ class DirectedGraphFile(DirectedGraph):
                     target = int(data[1].strip())
                     cost = int(data[2].strip())
                     edge = Edge(source, target, cost)
-                    self.save(edge)
+                    self.init_save(edge)
                     i += 1
-                    if edges == 4000000:
+                    if edges >= 1000000:
                         if i % div == 0:
                             self.printProgressBar(i, edges, prefix='Progress: ', suffix='Complete!', length=50)
 
-                if edges == 4000000: print()
+                if edges >= 1000000: print()
                 print("All data was read. Ready to go!")
                 f.close()
         except IOError as io:

@@ -73,6 +73,7 @@ class GraphController(object):
         self.__directed_graph.update_cost(edge_id, new_cost)
 
     def get_outbound_edges(self, vertex):
+        self.__directed_graph.check_vertex(vertex)
         outbound = []
         for edge in self.__directed_graph.get_all_edges():
             if edge.source == vertex:
@@ -80,6 +81,7 @@ class GraphController(object):
         return outbound
 
     def get_inbound_edges(self, vertex):
+        self.__directed_graph.check_vertex(vertex)
         inbound = []
         for edge in self.__directed_graph.get_all_edges():
             if edge.target == vertex:

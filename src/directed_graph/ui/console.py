@@ -20,14 +20,18 @@ class Console(object):
                    5: self.__UI_print_vertices_number,
                    6: self.__UI_print_degree,
                    7: self.__UI_find_edge,
-                   8: self.__UI_print_endpoints}
+                   8: self.__UI_print_endpoints,
+                   9: self.__UI_print_edge_cost,
+                   10: self.__UI_modify_edge_cost,
+                   11: self.__UI_print_outbound_edges,
+                   12: self.__UI_print_inbound_edges}
 
         self.__greet_user()
         self.__graph_controller.load_from_file()
 
         while True:
             self.__print_menu()
-            option = input("|| Enter Option:")
+            option = input("|| Enter Option: ")
             if option == 'x':
                 break
             try:
@@ -36,7 +40,7 @@ class Console(object):
             except ValueError as ve:
                 print("Invalid input: ", ve)
             except KeyError as ke:
-                print("Feature not implemented. Try another one.", ke)
+                print("Feature not implemented. Try another one.")
             except GraphException as ge:
                 print("An error occurred: ", ge)
                 print("Try again.")
@@ -107,3 +111,35 @@ class Console(object):
             print("Edge does not exist.")
         else:
             print("The edge's source vertex is {0} and target vertex is {1}.".format(source, target))
+
+    def __UI_print_edge_cost(self):
+        edge_id = input("Edge ID: ")
+        cost = self.__graph_controller.get_edge_cost(edge_id)
+        if cost is None:
+            print("Edge does not exist.")
+        else:
+            print("The cost for edge {0} is {1}".format(edge_id, cost))
+
+    def __UI_modify_edge_cost(self):
+        edge_id = input("Edge ID: ")
+        new_cost = int(input("New cost for edge: "))
+        self.__graph_controller.change_edge_cost(edge_id, new_cost)
+        print("Cost modified successfully.")
+
+    def __UI_print_outbound_edges(self):
+        vertex = int(input("Enter vertex: "))
+        outbounds = self.__graph_controller.get_outbound_edges(vertex)
+        if len(outbounds) == 0:
+            print("The vertex has no outbound edges.")
+        else:
+            for edge in outbounds:
+                print("Edge ID: " + edge.edge_id)
+
+    def __UI_print_inbound_edges(self):
+        vertex = int(input("Enter vertex: "))
+        inbounds = self.__graph_controller.get_inbound_edges(vertex)
+        if len(inbounds) == 0:
+            print("The vertex has no inbound edges.")
+        else:
+            for edge in inbounds:
+                print("Edge ID: " + edge.edge_id)

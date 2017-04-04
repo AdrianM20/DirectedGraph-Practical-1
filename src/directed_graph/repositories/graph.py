@@ -58,6 +58,7 @@ class DirectedGraph(object):
             raise DirectedGraphException("Vertex already exists. Nothing was added.")
         VertexValidator.validate(vertex)
         self.__vertices.append(vertex)
+        self.__n_vertices += 1
 
     def delete_edge_by_id(self, edge_id):
         if self.find_edge_by_id(edge_id) is None:
@@ -77,6 +78,7 @@ class DirectedGraph(object):
         for edge in edges:
             if edge.source == vertex or edge.target == vertex:
                 del self.__edges[edge.edge_id]
+                self.__n_edges -= 1
 
     def update_cost(self, edge_id, new_cost):
         if self.find_edge_by_id(edge_id) is None:

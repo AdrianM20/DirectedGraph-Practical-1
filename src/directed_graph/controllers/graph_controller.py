@@ -47,8 +47,8 @@ class GraphController(object):
 
     def get_degree(self, vertex):
         self.__directed_graph.check_vertex(vertex)
-        in_degree = None
-        out_degree = None
+        in_degree = 0
+        out_degree = 0
         for edge in self.__directed_graph.get_all_edges():
             if edge.source == vertex:
                 out_degree += 1
